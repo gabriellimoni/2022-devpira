@@ -1,4 +1,4 @@
-import { Tool } from "../../../models/toolModel";
+import { CreateToolRepository } from "../../domain/repositories/toolRepository";
 import {
   badRequest,
   Controller,
@@ -7,14 +7,16 @@ import {
   HttpResponse,
 } from "../protocols";
 
-export const createToolController: Controller = async (
-  req: HttpRequest
-): Promise<HttpResponse> => {
-  if (!req.body.name) {
-    return badRequest({
-      message: "Cannot create a tool without name",
-    });
-  }
-  const createdTool = await Tool.query().insertAndFetch(req.body);
-  return created(createdTool);
-};
+export const makeCreateToolController: (
+  createToolRepo: CreateToolRepository
+) => Controller =
+  (createToolRepo: CreateToolRepository) =>
+  async (req: HttpRequest): Promise<HttpResponse> => {
+    if (!req.body.name) {
+      return badRequest({
+        message: "Cannot create a tool without name",
+      });
+    }
+    const createdTool = await createToolRepo(req.body);
+    return created(createdTool);
+  };

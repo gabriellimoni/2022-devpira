@@ -1,6 +1,6 @@
 import { json, Router } from "express";
-import { createToolController } from "../clean/http/controllers/createToolController";
 import { adaptExpressRoute } from "../clean/main/adapters/expressAdapter";
+import { createToolController } from "../clean/main/factories/controllers/createToolController";
 import { Tool } from "../models/toolModel";
 
 export const toolsRouter = Router();
