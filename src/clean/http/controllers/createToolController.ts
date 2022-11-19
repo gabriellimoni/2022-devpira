@@ -17,6 +17,9 @@ export const makeCreateToolController: (
         message: "Cannot create a tool without name",
       });
     }
+    if (req.body.tags?.length) {
+      req.body.tags = Array.from(new Set(req.body.tags));
+    }
     const createdTool = await createToolRepo(req.body);
     return created(createdTool);
   };
