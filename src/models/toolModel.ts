@@ -1,4 +1,4 @@
-import { Model, QueryContext, StaticHookArguments } from "objection";
+import { Model, QueryContext } from "objection";
 
 export class Tool extends Model {
   name?: string;
