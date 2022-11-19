@@ -1,6 +1,7 @@
 import { Model, QueryContext } from "objection";
 
 export class Tool extends Model {
+  id?: number;
   name?: string;
   tags?: string[] | string;
 
