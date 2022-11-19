@@ -1,6 +1,8 @@
 import express from "express";
 import { routerV1 } from "./routes";
 
+import "./database";
+
 const server = express();
 
 server.get("/", (_, res) => {
