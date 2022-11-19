@@ -12,3 +12,13 @@ export interface HttpResponse {
 export interface Controller {
   (req: HttpRequest): Promise<HttpResponse>;
 }
+
+export const created = (data?: any): HttpResponse => ({
+  data,
+  status: 201,
+});
+
+export const badRequest = (data?: any): HttpResponse => ({
+  data,
+  status: 400,
+});
