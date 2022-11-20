@@ -11,9 +11,20 @@ class MockedCreateToolRepo implements CreateToolRepository {
   }
 }
 
+const makeTestData = () => {
+  const createToolRepo = new MockedCreateToolRepo();
+  const controller = new CreateToolController(createToolRepo);
+  const createToolSpy = jest.spyOn(createToolRepo, "create");
+
+  return {
+    controller,
+    createToolSpy,
+  };
+};
+
 describe("Create Tool Controller", () => {
   test("Should returtn 400 if name is not sent", async () => {
-    const controller = new CreateToolController(new MockedCreateToolRepo());
+    const { controller } = makeTestData();
     const result = await controller.handle({
       body: {
         name: "",
@@ -28,9 +39,7 @@ describe("Create Tool Controller", () => {
   });
 
   test("Should call createToolRepo with correct params - without tags", async () => {
-    const createToolRepo = new MockedCreateToolRepo();
-    const controller = new CreateToolController(createToolRepo);
-    const createToolSpy = jest.spyOn(createToolRepo, "create");
+    const { controller, createToolSpy } = makeTestData();
     await controller.handle({
       body: {
         name: "Any name",
@@ -42,9 +51,7 @@ describe("Create Tool Controller", () => {
   });
 
   test("Should call createToolRepo with correct params - with tags", async () => {
-    const createToolRepo = new MockedCreateToolRepo();
-    const controller = new CreateToolController(createToolRepo);
-    const createToolSpy = jest.spyOn(createToolRepo, "create");
+    const { controller, createToolSpy } = makeTestData();
     await controller.handle({
       body: {
         name: "Any name",
@@ -58,8 +65,7 @@ describe("Create Tool Controller", () => {
   });
 
   test("Should return 201 and created tool correctly", async () => {
-    const createToolRepo = new MockedCreateToolRepo();
-    const controller = new CreateToolController(createToolRepo);
+    const { controller } = makeTestData();
     const result = await controller.handle({
       body: {
         name: "Any name",
