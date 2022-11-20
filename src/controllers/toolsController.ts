@@ -1,15 +1,13 @@
 import { json, Router } from "express";
-import { CreateToolController } from "../clean/http/controllers/createToolController";
+import { adaptExpressRoute } from "../clean/main/adapters/expressRouteAdapter";
+import { makeCreateToolController } from "../clean/main/factories/controllers/createToolControllerFactory";
 import { Tool } from "../models/toolModel";
 
 export const toolsRouter = Router();
 
-const createToolController = new CreateToolController();
+const createToolController = makeCreateToolController();
 
-toolsRouter.post("/tool", json(), async (req, res) => {
-  const result = await createToolController.handle(req);
-  return res.status(result.status).send(result.data);
-});
+toolsRouter.post("/tool", json(), adaptExpressRoute(createToolController));
 
 toolsRouter.get("/tool", async (req, res) => {
   const result = await Tool.query();
