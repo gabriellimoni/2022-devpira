@@ -1,7 +1,9 @@
-import { Tool } from "../../../models/toolModel";
+import { CreateToolRepository } from "../../domain/repositories/toolRepository";
 import { Controller, HttpRequest, HttpResponse } from "../protocols";
 
 export class CreateToolController implements Controller {
+  constructor(private readonly createToolRepo: CreateToolRepository) {}
+
   async handle(req: HttpRequest): Promise<HttpResponse> {
     if (!req.body.name) {
       return {
@@ -11,7 +13,7 @@ export class CreateToolController implements Controller {
         },
       };
     }
-    const createdTool = await Tool.query().insertAndFetch(req.body);
+    const createdTool = await this.createToolRepo.create(req.body);
     return {
       status: 201,
       data: createdTool,
