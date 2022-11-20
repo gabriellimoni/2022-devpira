@@ -13,6 +13,9 @@ export class CreateToolController implements Controller {
         },
       };
     }
+    if (req.body.tags?.length) {
+      req.body.tags = Array.from(new Set(req.body.tags)).filter((t) => !!t);
+    }
     const createdTool = await this.createToolRepo.create(req.body);
     return {
       status: 201,

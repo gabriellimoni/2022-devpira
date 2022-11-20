@@ -64,6 +64,20 @@ describe("Create Tool Controller", () => {
     });
   });
 
+  test("Should call createToolRepo with correct params - with duplicated and falsy tags", async () => {
+    const { controller, createToolSpy } = makeTestData();
+    await controller.handle({
+      body: {
+        name: "Any name",
+        tags: ["tag1", "tag2", "tag2", undefined, null, ""],
+      },
+    });
+    expect(createToolSpy).toHaveBeenCalledWith({
+      name: "Any name",
+      tags: ["tag1", "tag2"],
+    });
+  });
+
   test("Should return 201 and created tool correctly", async () => {
     const { controller } = makeTestData();
     const result = await controller.handle({
