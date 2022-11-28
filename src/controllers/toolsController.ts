@@ -1,17 +1,17 @@
 import { json, Router } from "express";
+import { CreateToolImplementation } from "../clean/domain/usecases/createToolUsecase";
+import { CreateToolController } from "../clean/http/controllers/createToolController";
+import { ObjectionToolRepository } from "../clean/infra/objection/objectionToolRepository";
+import { adaptExpressRoute } from "../clean/main/adapters/expressAdapters";
 import { Tool } from "../models/toolModel";
 
 export const toolsRouter = Router();
 
-toolsRouter.post("/tool", json(), async (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).send({
-      message: "Cannot create a tool without name",
-    });
-  }
-  const createdTool = await Tool.query().insertAndFetch(req.body);
-  return res.status(201).send(createdTool);
-});
+const toolRepo = new ObjectionToolRepository();
+const createToolUsecase = new CreateToolImplementation(toolRepo);
+const createToolController = new CreateToolController(createToolUsecase);
+
+toolsRouter.post("/tool", json(), adaptExpressRoute(createToolController));
 
 toolsRouter.get("/tool", async (req, res) => {
   const result = await Tool.query();
