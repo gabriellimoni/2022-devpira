@@ -57,17 +57,4 @@ describe("Create tool controller", () => {
 
     expect(result.status).toBe(400);
   });
-  test("Should return 400 if no tool name - trim", async () => {
-    const createToolUsecase = new MockedCreateToolUsecase();
-    const controller = new CreateToolController(createToolUsecase);
-
-    const result = await controller.handle({
-      body: {
-        name: "  ",
-        tags: ["tag1", "tag2"],
-      },
-    });
-
-    expect(result.status).toBe(400);
-  });
 });
