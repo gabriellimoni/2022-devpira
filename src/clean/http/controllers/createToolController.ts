@@ -5,7 +5,7 @@ export class CreateToolController implements Controller {
   constructor(private readonly createToolUsecase: CreateToolUsecase) {}
 
   async handle(req: HttpRequest): Promise<HttpResponse> {
-    if (!req.body?.name?.trim()) {
+    if (!req.body?.name) {
       return {
         status: 400,
         data: {
