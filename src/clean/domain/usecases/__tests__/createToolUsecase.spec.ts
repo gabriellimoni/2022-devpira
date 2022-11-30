@@ -29,22 +29,6 @@ describe("Create tool usecase", () => {
       tags: ["tag1", "tag2"],
     });
   });
-  test("Should call createToolRepo with correct params - duplicated tags", async () => {
-    const toolRepo = new MockedToolRepo();
-    const createToolUsecase = new CreateToolImplementation(toolRepo);
-
-    const createToolSpy = jest.spyOn(toolRepo, "createTool");
-
-    await createToolUsecase.perform({
-      name: "Create this tool",
-      tags: ["tag1", "tag2", "tag2"],
-    });
-
-    expect(createToolSpy).toHaveBeenCalledWith({
-      name: "Create this tool",
-      tags: ["tag1", "tag2"],
-    });
-  });
   test("Should return created tool correctly", async () => {
     const toolRepo = new MockedToolRepo();
     const createToolUsecase = new CreateToolImplementation(toolRepo);
