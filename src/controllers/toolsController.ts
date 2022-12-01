@@ -1,15 +1,11 @@
 import { json, Router } from "express";
-import { CreateToolImplementation } from "../clean/domain/usecases/createToolUsecase";
-import { CreateToolController } from "../clean/http/controllers/createToolController";
-import { ObjectionToolRepository } from "../clean/infra/objection/objectionToolRepository";
 import { adaptExpressRoute } from "../clean/infra/express/expressAdapters";
 import { Tool } from "../models/toolModel";
+import { makeCreateToolController } from "../clean/main/factories/controllers/createToolControllerFactory";
 
 export const toolsRouter = Router();
 
-const toolRepo = new ObjectionToolRepository();
-const createToolUsecase = new CreateToolImplementation(toolRepo);
-const createToolController = new CreateToolController(createToolUsecase);
+const createToolController = makeCreateToolController();
 
 toolsRouter.post("/tool", json(), adaptExpressRoute(createToolController));
 
