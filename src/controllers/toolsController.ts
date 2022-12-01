@@ -2,7 +2,7 @@ import { json, Router } from "express";
 import { CreateToolImplementation } from "../clean/domain/usecases/createToolUsecase";
 import { CreateToolController } from "../clean/http/controllers/createToolController";
 import { ObjectionToolRepository } from "../clean/infra/objection/objectionToolRepository";
-import { adaptExpressRoute } from "../clean/main/adapters/expressAdapters";
+import { adaptExpressRoute } from "../clean/infra/express/expressAdapters";
 import { Tool } from "../models/toolModel";
 
 export const toolsRouter = Router();
